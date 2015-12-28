@@ -1,0 +1,72 @@
+<html>
+My first game!!
+<b>YAY!!!</b>dsfsdfsd
+
+<!--Block for graphics-->
+<canvas id="GameCanvas" width="800" height="600">
+</canvas>
+
+<script>
+
+<!--Deatails about the demintions of our disply area-->
+var canvas;
+<!--The graphical information about our display area where we will draw shapes like rectangles, cirles//-->
+var canvasContext;
+var moveLeft = false;
+var blackSqareX = 50
+var squareSpeed = 5;
+
+<!--We do not want to code to run till the all the page has been laoded //--> 
+window.onload = function()
+{
+	console.log("Hello World");
+	canvas = document.getElementById('GameCanvas');
+	canvasContext = canvas.getContext('2d');
+	
+	
+	var framesPerSecond = 30;
+	<!--Setting the interval allows us to be able to see the changes in the screen. Other -->
+	setInterval(function()
+	{
+		
+		if(blackSqareX == 800)
+		{
+			moveLeft = true;
+		}
+		if(blackSqareX == 0)
+		{
+			moveLeft = false;
+		}
+		if(moveLeft)
+		{
+			blackSqareX = blackSqareX - squareSpeed;
+			console.log(blackSqareX);
+		}
+		else
+		{
+			blackSqareX = blackSqareX + squareSpeed;		
+		}
+		
+		drawSquare();
+	}
+	,1000/framesPerSecond);
+}
+
+
+
+
+function drawSquare()
+{
+	createBackGround();
+	canvasContext.fillStyle = 'black';
+	canvasContext.fillRect(blackSqareX,canvas.height/2,10,10);
+}
+
+function createBackGround()
+{
+	canvasContext.fillStyle = 'pink';
+	canvasContext.fillRect(0,0,canvas.width,canvas.height);
+}
+
+</script>
+</html>
