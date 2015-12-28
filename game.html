@@ -29,18 +29,22 @@ window.onload = function()
 	setInterval(function()
 	{
 		
-		if(blackSqareX == 800)
+		if(blackSqareX == canvas.width)
 		{
-			squareSpeed = -5;
+			squareSpeed = -squareSpeed;
 		}
 		if(blackSqareX == 0)
 		{
-			squareSpeed = 5;
+			squareSpeed = -squareSpeed;
 		}
 		blackSqareX = blackSqareX + squareSpeed;		
 		
-		
-		drawSquare();
+		createBackGround();
+		// Left player paddle
+		drawRectangle(0,(canvas.height/2) - 50,15,100,'black');
+		// Right player paddle
+		drawRectangle(785,(canvas.height/2) - 50,15,100,'black');
+		drawPingPongSquare();
 	}
 	,1000/framesPerSecond);
 }
@@ -48,17 +52,20 @@ window.onload = function()
 
 
 
-function drawSquare()
-{
-	createBackGround();
-	canvasContext.fillStyle = 'blue';
-	canvasContext.fillRect(blackSqareX,canvas.height/2,10,10);
+function drawPingPongSquare()
+{	
+	drawRectangle(blackSqareX,canvas.height/2,10,10,'black');
 }
 
 function createBackGround()
 {
-	canvasContext.fillStyle = 'pink';
-	canvasContext.fillRect(0,0,canvas.width,canvas.height);
+	drawRectangle(0,0,canvas.width,canvas.height,'pink');
+}
+
+function drawRectangle(x,y,width,height,color)
+{
+	canvasContext.fillStyle = color;
+	canvasContext.fillRect(x,y,width,height);
 }
 
 </script>
