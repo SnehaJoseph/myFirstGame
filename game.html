@@ -31,21 +31,14 @@ window.onload = function()
 		
 		if(blackSqareX == 800)
 		{
-			moveLeft = true;
+			squareSpeed = -5;
 		}
 		if(blackSqareX == 0)
 		{
-			moveLeft = false;
+			squareSpeed = 5;
 		}
-		if(moveLeft)
-		{
-			blackSqareX = blackSqareX - squareSpeed;
-			console.log(blackSqareX);
-		}
-		else
-		{
-			blackSqareX = blackSqareX + squareSpeed;		
-		}
+		blackSqareX = blackSqareX + squareSpeed;		
+		
 		
 		drawSquare();
 	}
@@ -58,7 +51,7 @@ window.onload = function()
 function drawSquare()
 {
 	createBackGround();
-	canvasContext.fillStyle = 'black';
+	canvasContext.fillStyle = 'blue';
 	canvasContext.fillRect(blackSqareX,canvas.height/2,10,10);
 }
 
