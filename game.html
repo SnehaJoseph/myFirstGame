@@ -13,8 +13,16 @@ var canvas;
 <!--The graphical information about our display area where we will draw shapes like rectangles, cirles//-->
 var canvasContext;
 var moveLeft = false;
-var blackSqareX = 50
-var squareSpeed = 5;
+var ballX = 50
+var ballXSpeed = 5;
+var ballY = 50
+var ballYSpeed = 4;
+var paddlePosition;
+
+var Keys = {
+        up: false,
+        down: false       
+    };
 
 <!--We do not want to code to run till the all the page has been laoded //--> 
 window.onload = function()
@@ -25,36 +33,90 @@ window.onload = function()
 	
 	
 	var framesPerSecond = 30;
+	paddlePosition = (canvas.height/2) - 50;
 	<!--Setting the interval allows us to be able to see the changes in the screen. Other -->
 	setInterval(function()
 	{
 		
-		if(blackSqareX == canvas.width)
+		if(ballX > canvas.width)
 		{
-			squareSpeed = -squareSpeed;
+			ballXSpeed = -ballXSpeed;
 		}
-		if(blackSqareX == 0)
+		if(ballX < 0)
 		{
-			squareSpeed = -squareSpeed;
+			ballXSpeed = -ballXSpeed;
 		}
-		blackSqareX = blackSqareX + squareSpeed;		
+		ballX = ballX + ballXSpeed;		
+		
+		
+		 if(ballY > canvas.height)
+		 {			ballYSpeed = -ballYSpeed;		}
+		 if(ballY < 0)
+		 {			ballYSpeed = -ballYSpeed;		}
+		 ballY = ballY + ballYSpeed;	
 		
 		createBackGround();
-		// Left player paddle
-		drawRectangle(0,(canvas.height/2) - 50,15,100,'black');
-		// Right player paddle
-		drawRectangle(785,(canvas.height/2) - 50,15,100,'black');
-		drawPingPongSquare();
+		setPaddlePosition();
+		displayPaddle();
+		
+		drawPingPong();
 	}
 	,1000/framesPerSecond);
 }
 
+function displayPaddle()
+{
+	// Left player paddle
+	drawRectangle(0,paddlePosition,15,100,'black');
+	// Right player paddle
+	drawRectangle(785,paddlePosition,15,100,'black');
+}
+
+function setPaddlePosition()
+{
+	if (Keys.up) 
+	{   
+		    if(paddlePosition > 0)
+			paddlePosition = paddlePosition - 5;
+	}
+	else if (Keys.down) 
+	{ 
+		    if(paddlePosition < (canvas.height - 100) )
+			paddlePosition = paddlePosition + 5;
+	}
+}
+
+window.onkeydown = function(e) {
+    var kc = e.keyCode;
+      
+    if (kc === 38) Keys.up = true;    
+    else if (kc === 40) Keys.down = true;
+};
+
+window.onkeyup = function(e) {
+    var kc = e.keyCode;
+   
+    if (kc === 38) Keys.up = false;    
+    else if (kc === 40) Keys.down = false;
+};
+
+function setBallCoordinateSpeed(coordinate,speed)
+{
+		if(coordinate > canvas.height)
+		{
+			ballYSpeed = -speed;
+		}
+		if(coordinate < 0)
+		{
+			ballYSpeed = -speed;
+		}
+		coordinate = coordinate + speed;	
+}
 
 
-
-function drawPingPongSquare()
+function drawPingPong()
 {	
-	drawRectangle(blackSqareX,canvas.height/2,10,10,'black');
+	drawCircle(ballX,ballY,10,'black');
 }
 
 function createBackGround()
@@ -62,6 +124,15 @@ function createBackGround()
 	drawRectangle(0,0,canvas.width,canvas.height,'pink');
 }
 
+function drawCircle(x,y,radius,color)
+{
+	canvasContext.fillStyle = color;
+	canvasContext.beginPath();
+	canvasContext.arc(x,y,radius,0,Math.PI*2,true);
+	canvasContext.fill();
+}
+
+// x,y is the top right most corner of the rectangle
 function drawRectangle(x,y,width,height,color)
 {
 	canvasContext.fillStyle = color;
